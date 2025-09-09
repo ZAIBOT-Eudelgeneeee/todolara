@@ -4,38 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {   
     public function index() {
-        $tasks = Task::latest()->get();
+        $tasks = Task::where('user_id', Auth::id())->latest()->get(); // FETCH TASKS PER USER USING ONE-TO-MANY
         return view('dashboard', ['tasks' => $tasks]);
     }
 
     public function store(Request $request) {
-        $data = $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|nullable|string',
         ]);
-        Task::create($data);
+
+        $validated['user_id'] = Auth::id(); // ADDING KEY-VALUE ['user_id'] AND RETURNING CURRENTLY LOGGED IN USERS
+
+        Task::create($validated);
 
         return redirect()->back()->with('success', 'Task added successfully!');
     }
 
     public function update(Request $request, Task $task) {
-        $data = $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
-        $task->update($data);
+        $task->update($validated);
         
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Task Updated successfully!');
     }
 
     public function destroy($id) {
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Task deleted successfully!');
     }
 }

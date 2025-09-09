@@ -8,7 +8,8 @@
 </head>
 <body>
     @include('layouts.navbar')
-    <div class="flex items-center justify-center mt-20">
+    @include('layouts.success_sessions')
+    <div class="flex items-center justify-center mt-10">
         {{-- TASKS CONTENT --}}
         @yield('content')
     </div>
