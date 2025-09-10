@@ -17,7 +17,7 @@ class TaskController extends Controller
         $taskValidation = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|nullable|string',
-        ]);
+        ], ['title.required' => 'Input task required.']);
 
         $taskValidation['user_id'] = Auth::id(); // ADDING KEY-VALUE ['user_id'] AND RETURNING CURRENTLY LOGGED IN USERS
 
@@ -31,6 +31,7 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
+        
         $task->update($taskUpdateValidation);
         
         return redirect()->route('dashboard')->with('success', 'Task Updated successfully!');

@@ -47,6 +47,10 @@ class AuthController extends Controller
 
             return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
         }
+
+        return back()->withErrors([
+            'invalid' => 'Invalid credentials',
+        ]);
     }
 
     // AUTH FOR LOGOUT 

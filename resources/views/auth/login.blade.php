@@ -23,5 +23,13 @@
         Login
       </button>
     </form>
+
+    {{-- HANDLES THE INVALID CREDENTIALS ERROR --}}
+    @if($errors->any())
+    @foreach($errors->all() as $error)
+      <p class="text-red-500 text-sm mt-5">{{ $error }}</p>
+    @endforeach
+  @endif
+
   </div>
 @endsection
