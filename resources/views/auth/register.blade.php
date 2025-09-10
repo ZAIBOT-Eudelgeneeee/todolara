@@ -28,7 +28,7 @@
       </div>
 
       <div>
-        <p>Already have an account? <a href="{{route('show.login')}}" class="text-[#0000EE]">Login here.</a></p>
+        <p>Already have an account? <a href="{{route('show.login')}}" class="text-[#0000EE]">Sign in</a></p>
       </div>
 
       <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200">

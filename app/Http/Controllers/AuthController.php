@@ -20,16 +20,16 @@ class AuthController extends Controller
 
     // User Registration/sign up new users
     public function register(Request $request) {
-        $dataValidated = $request->validate([
+        $userRegisterValidation = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8|confirmed'
         ]);   
         
         User::create([
-            'name' => $dataValidated['name'],
-            'email' => $dataValidated['email'],
-            'password' => Hash::make($dataValidated['password']),
+            'name' => $userRegisterValidation['name'],
+            'email' => $userRegisterValidation['email'],
+            'password' => Hash::make($userRegisterValidation['password']),
         ]);
 
         return redirect()->route('show.login');
@@ -37,12 +37,12 @@ class AuthController extends Controller
 
     // Validating login credentials
     public function loginAuth(Request $request) {
-        $validatedCredentials = $request->validate([
+        $loginAuthValidation = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
 
-        if (Auth::attempt($validatedCredentials)) {
+        if (Auth::attempt($loginAuthValidation)) {
             $request->session()->regenerate();
 
             return redirect()->route('dashboard')->with('success', 'Logged in successfully!');

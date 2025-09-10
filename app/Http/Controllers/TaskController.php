@@ -14,24 +14,24 @@ class TaskController extends Controller
     }
 
     public function store(Request $request) {
-        $validated = $request->validate([
+        $taskValidation = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|nullable|string',
         ]);
 
-        $validated['user_id'] = Auth::id(); // ADDING KEY-VALUE ['user_id'] AND RETURNING CURRENTLY LOGGED IN USERS
+        $taskValidation['user_id'] = Auth::id(); // ADDING KEY-VALUE ['user_id'] AND RETURNING CURRENTLY LOGGED IN USERS
 
-        Task::create($validated);
+        Task::create($taskValidation);
 
         return redirect()->back()->with('success', 'Task added successfully!');
     }
 
     public function update(Request $request, Task $task) {
-        $validated = $request->validate([
+        $taskUpdateValidation = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
-        $task->update($validated);
+        $task->update($taskUpdateValidation);
         
         return redirect()->route('dashboard')->with('success', 'Task Updated successfully!');
     }
